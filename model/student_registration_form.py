@@ -13,19 +13,20 @@ class RegistrationPage():
         browser.all('[id^=google_ads][id$=container__]').perform(command.js.remove)
 
     def fill_first_name(self, value):
-        browser.element('#firstName').should(be.visible)
+        browser.element('#firstName').type(value)
 
     def fill_last_name(self, value):
-        browser.element('#lastName').type('Hex')
+        browser.element('#lastName').type(value)
 
     def fill_email(self, value):
-        browser.element('#userEmail').type('sinterma@gmail.com')
+        browser.element('#userEmail').type(value)
 
     def select_gender(self, value):
-        browser.element('[for="gender-radio-3"]').click()
+        browser.all('[name=gender]').element_by(have.value(value)).element(
+            '..').click()
 
     def fill_number(self, value):
-        browser.element('#userNumber').type('0987890690')
+        browser.element('#userNumber').type(value)
 
     def fill_date_of_birth(self, day, month, year):
         browser.element('#dateOfBirthInput').click()
@@ -37,11 +38,11 @@ class RegistrationPage():
     def scroll_page_to_the_end(self):
         browser.execute_script('window.scrollTo(0, document.body.scrollHeight)')
 
-    def fill_subject(self, value):
-        browser.element('#subjectsInput').type('English').press_enter()
-
-    def select_hobby(self):
-        browser.element('[for="hobbies-checkbox-3"]').click()
+    def choose_subject_and_hobby(self, subject, hobby):
+        browser.element('#subjectsInput').type(subject).press_enter()
+        browser.all('.custom-checkbox').element_by(
+            have.exact_text(hobby)).perform(
+            command.js.scroll_into_view).click()
 
     def upload_photo(self):
         browser.element('#uploadPicture').send_keys(
