@@ -29,9 +29,10 @@ class RegistrationPage():
 
     def fill_date_of_birth(self, day, month, year):
         browser.element('#dateOfBirthInput').click()
-        browser.element('.react-datepicker__month-select').click().element(f'[value = "{month}"]').click()
-        browser.element('.react-datepicker__year-select').click().element(f'[value = "{year}"]').click()
-        browser.element(f'.react-datepicker__day--0{day}').click()
+        browser.element('.react-datepicker__month-select').type(month)
+        browser.element('.react-datepicker__year-select').type(year)
+        browser.element(
+            f'.react-datepicker__day--0{day}:not(.react-datepicker__day--outside-month)').click()
 
     def scroll_page_to_the_end(self):
         browser.execute_script('window.scrollTo(0, document.body.scrollHeight)')
@@ -55,18 +56,8 @@ class RegistrationPage():
         browser.element('#react-select-4-input').type(city).press_enter()
         browser.element('#submit').click()
 
-    def shoud_registered_student_with(self, full_name, email, gender, mobile, date_of_birth, subjects, hobbies, picture,
-                                      address, state_and_city):
+    def shoud_registered_user_with(self, full_name, mail, gender, number, date_of_birth, subject, hobby, file, address,
+                                   state_and_city):
         browser.element('.modal-content').element('table').all('tr').all('td').even.should(have.exact_texts(
-            'Name', full_name,
-            'Email', email,
-            'Gender', gender,
-            'Mobile', mobile,
-            'Date of Birth', date_of_birth,
-            'Subjects', subjects,
-            'Hobbies', hobbies,
-            'Picture', picture,
-            'Address', address,
-            'State and City', state_and_city
-        )
-        )
+            full_name, mail, gender, number, date_of_birth, subject,
+            hobby, file, address, state_and_city))
